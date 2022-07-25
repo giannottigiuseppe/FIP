@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.6.3"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:npm="clr-namespace:Neurophotometrics;assembly=Neurophotometrics"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="io:SerialStringRead">
+          <io:PortName>COM7</io:PortName>
+          <io:NewLine>\n</io:NewLine>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>PhotometryEvent 470nm</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:WithLatestFrom" />
+      </Expression>
+      <Expression xsi:type="io:CsvWriter">
+        <io:FileName>5_18_2022\timestamps.csv</io:FileName>
+        <io:Append>false</io:Append>
+        <io:Overwrite>false</io:Overwrite>
+        <io:Suffix>None</io:Suffix>
+        <io:IncludeHeader>false</io:IncludeHeader>
+        <io:Selector>Item2</io:Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="npm:FP3002">
+          <npm:PortName>COM6</npm:PortName>
+          <npm:Regions>
+            <npm:RotatedRect>
+              <npm:Center>
+                <npm:X>855</npm:X>
+                <npm:Y>475.5</npm:Y>
+              </npm:Center>
+              <npm:Size>
+                <npm:Width>68</npm:Width>
+                <npm:Height>71</npm:Height>
+              </npm:Size>
+              <npm:Angle>0</npm:Angle>
+            </npm:RotatedRect>
+            <npm:RotatedRect>
+              <npm:Center>
+                <npm:X>827.5</npm:X>
+                <npm:Y>578</npm:Y>
+              </npm:Center>
+              <npm:Size>
+                <npm:Width>61</npm:Width>
+                <npm:Height>72</npm:Height>
+              </npm:Size>
+              <npm:Angle>0</npm:Angle>
+            </npm:RotatedRect>
+            <npm:RotatedRect>
+              <npm:Center>
+                <npm:X>738.5</npm:X>
+                <npm:Y>456.5</npm:Y>
+              </npm:Center>
+              <npm:Size>
+                <npm:Width>57</npm:Width>
+                <npm:Height>69</npm:Height>
+              </npm:Size>
+              <npm:Angle>0</npm:Angle>
+            </npm:RotatedRect>
+            <npm:RotatedRect>
+              <npm:Center>
+                <npm:X>703.5</npm:X>
+                <npm:Y>546</npm:Y>
+              </npm:Center>
+              <npm:Size>
+                <npm:Width>63</npm:Width>
+                <npm:Height>68</npm:Height>
+              </npm:Size>
+              <npm:Angle>0</npm:Angle>
+            </npm:RotatedRect>
+            <npm:RotatedRect>
+              <npm:Center>
+                <npm:X>295.5</npm:X>
+                <npm:Y>343</npm:Y>
+              </npm:Center>
+              <npm:Size>
+                <npm:Width>53</npm:Width>
+                <npm:Height>68</npm:Height>
+              </npm:Size>
+              <npm:Angle>0</npm:Angle>
+            </npm:RotatedRect>
+            <npm:RotatedRect>
+              <npm:Center>
+                <npm:X>272</npm:X>
+                <npm:Y>429.5</npm:Y>
+              </npm:Center>
+              <npm:Size>
+                <npm:Width>58</npm:Width>
+                <npm:Height>67</npm:Height>
+              </npm:Size>
+              <npm:Angle>0</npm:Angle>
+            </npm:RotatedRect>
+            <npm:RotatedRect>
+              <npm:Center>
+                <npm:X>195</npm:X>
+                <npm:Y>326</npm:Y>
+              </npm:Center>
+              <npm:Size>
+                <npm:Width>56</npm:Width>
+                <npm:Height>68</npm:Height>
+              </npm:Size>
+              <npm:Angle>0</npm:Angle>
+            </npm:RotatedRect>
+            <npm:RotatedRect>
+              <npm:Center>
+                <npm:X>164</npm:X>
+                <npm:Y>408</npm:Y>
+              </npm:Center>
+              <npm:Size>
+                <npm:Width>58</npm:Width>
+                <npm:Height>74</npm:Height>
+              </npm:Size>
+              <npm:Angle>0</npm:Angle>
+            </npm:RotatedRect>
+          </npm:Regions>
+          <npm:AutoCrop>false</npm:AutoCrop>
+          <npm:AcquisitionMode>StartPhotometry</npm:AcquisitionMode>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="npm:PhotometryData">
+          <npm:Filter>L410</npm:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="npm:PhotometryWriter">
+          <npm:FileName>5_18_2022\415.csv</npm:FileName>
+          <npm:Suffix>Timestamp</npm:Suffix>
+          <npm:Buffered>true</npm:Buffered>
+          <npm:Overwrite>false</npm:Overwrite>
+          <npm:IncludeRegions>false</npm:IncludeRegions>
+          <npm:IncludeChart>false</npm:IncludeChart>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="npm:PhotometryData">
+          <npm:Filter>L470</npm:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="PublishSubject">
+        <Name>PhotometryEvent 470nm</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="npm:PhotometryWriter">
+          <npm:FileName>5_18_2022\470.csv</npm:FileName>
+          <npm:Suffix>Timestamp</npm:Suffix>
+          <npm:Buffered>true</npm:Buffered>
+          <npm:Overwrite>false</npm:Overwrite>
+          <npm:IncludeRegions>false</npm:IncludeRegions>
+          <npm:IncludeChart>false</npm:IncludeChart>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="npm:PhotometryData">
+          <npm:Filter>L560</npm:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="npm:PhotometryWriter">
+          <npm:FileName>5_18_2022\560.csv</npm:FileName>
+          <npm:Suffix>Timestamp</npm:Suffix>
+          <npm:Buffered>true</npm:Buffered>
+          <npm:Overwrite>false</npm:Overwrite>
+          <npm:IncludeRegions>false</npm:IncludeRegions>
+          <npm:IncludeChart>false</npm:IncludeChart>
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="2" Label="Source2" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="4" To="7" Label="Source1" />
+      <Edge From="4" To="10" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
